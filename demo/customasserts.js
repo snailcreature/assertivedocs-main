@@ -3,6 +3,8 @@
  * @fileoverview Custom type mappings for objects and classes
  */
 
+const { TestClass } = require('./index');
+
 /**
  * Mixin for creating custom objects.
  * @namespace typeMappingsMixin
@@ -43,6 +45,8 @@ const typeMappingsMixin = {
           return {
             name: "John",
           }
+        case "class":
+          return new TestClass("John");
         default:
           return {};
       }

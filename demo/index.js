@@ -38,9 +38,31 @@ function add(a, b) {
  * 
  * @assert ObjectTestJohn - test:object=>John:string
  * @assert ObjectTestBlank - :object=>John:string
+ * @assert ClassTestJohn - class:object=>John:string
  */
 function objectTest(object) {
   return object.name;
+}
+
+/**
+ * A test class containing a name.
+ */
+class TestClass {
+  /**
+   * A test class that has a name property.
+   * @param {String} name - The name to be stored
+   */
+  constructor(name) {
+    this.name = name;
+  }
+
+  /**
+   * Changes the stored name.
+   * @param {String} newName - The new name to be stored
+   */
+  update(newName) {
+    this.name = newName;
+  }
 }
 
 console.log(greet("John"));
@@ -50,4 +72,5 @@ module.exports = {
   greet,
   add,
   objectTest,
+  TestClass,
 }
