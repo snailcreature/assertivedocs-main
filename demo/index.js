@@ -31,9 +31,46 @@ function add(a, b) {
   return a + b;
 }
 
+/**
+ * Returns the name property of an object.
+ * @param {Object} object - Object to read name from
+ * @returns {String}
+ * 
+ * @assert ObjectTestJohn - test:object=>John:string
+ * @assert ObjectTestBlank - :object=>John:string
+ * @assert ClassTestJohn - class:object=>John:string
+ */
+function objectTest(object) {
+  return object.name;
+}
+
+/**
+ * A test class containing a name.
+ */
+class TestClass {
+  /**
+   * A test class that has a name property.
+   * @param {String} name - The name to be stored
+   */
+  constructor(name) {
+    this.name = name;
+  }
+
+  /**
+   * Changes the stored name.
+   * @param {String} newName - The new name to be stored
+   */
+  update(newName) {
+    this.name = newName;
+  }
+}
+
 console.log(greet("John"));
+console.log(objectTest({name: "John"}));
 
 module.exports = {
   greet,
   add,
+  objectTest,
+  TestClass,
 }
