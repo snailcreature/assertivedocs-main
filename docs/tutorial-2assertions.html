@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>assertivedocs: Source: demo/customobjects.js</title>
+    <title>assertivedocs: Tutorial: 2. Assertions</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,81 +17,36 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: demo/customobjects.js</h1>
+    <h1 class="page-title">Tutorial: 2. Assertions</h1>
 
-    
-
-
-
-    
     <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @file customasserts
- * @fileoverview Custom type mappings for objects and classes
- */
 
-const { TestClass } = require('./index');
+<header>
+    
+    <ul>
+        <li><a href="tutorial-afirstassertion.html">2.1 Your First Assertion</a></li>
+    
+        <li><a href="tutorial-btypeoperators.html">2.2 Type Operators</a></li>
+    
+        <li><a href="tutorial-cnullnanundefined.html">2.3 Null, NaN, and Undefined (Oh My!)</a></li>
+    </ul>
+    
 
-/**
- * Mixin for creating custom objects.
- * @namespace typeMappingsMixin
- * 
- * @example
-const typeMappingsMixin = {
-  object: function(arg) {
-    try {
-      switch (arg) {
-        case "test":
-          return {
-            name: "John",
-          }
-        default:
-          return {};
-      }
-    } catch (error) {
-      return error;
-    }
-  }
-}
+    <h2>2. Assertions</h2>
+</header>
 
-module.exports = {
-  typeMappingsMixin,
-}
- */
-const typeMappingsMixin = {
-  /**
-   * Takes the argument and attempts to find a matching object to return.
-   * @memberof typeMappingsMixin
-   * @param {String} arg - The argument passed to typeMappings
-   * @returns {any}
-   */
-  object: function(arg) {
-    try {
-      switch (arg) {
-        case "test":
-          return {
-            name: "John",
-          }
-        case "class":
-          return new TestClass("John");
-        default:
-          return {};
-      }
-    } catch (error) {
-      return error;
-    }
-  }
-}
+<article>
+    <p>An assertion is the primary form of testing available in assertivedocs, and they take the form of
+<code>&lt;list,of,arguments&gt;=&gt;&lt;expected_output&gt;</code>.</p>
+<p>In <a href="/tutorial-firstassertion.html">Tutorial 2.1</a>, you will learn how to create a basic assertion in
+your documentation.</p>
+<p><a href="/tutorial-typeoperators.html">Tutorial 2.2</a> covers how to specify the type of your arguments and
+the expected output.</p>
+<p>Finally, <a href="/tutorial-nullnanundefined.html">Tutorial 2.3</a> teaches you how to use the <code>undefined</code>,
+<code>null</code>, and <code>NaN</code> values in your arguments and expected outputs.</p>
+</article>
 
-module.exports = {
-  typeMappingsMixin,
-}</code></pre>
-        </article>
-    </section>
-
-
-
+</section>
 
 </div>
 
