@@ -15,7 +15,8 @@ When assertivedocs initialises, it attempts to mix in a `typeMappingsMixin` obje
 from a file that you have specified in `opts.assertivedocs.customObjects` in your 
 JSDoc config file. Using the `<arg>:object` type operator in an assertion will attempt 
 to provide an object for the unit test, where the arg is a reference for the object in 
-the mixin.
+the mixin. By default, if there is no mixin provided, `:object` will default to an empty 
+object `{}`. This will also happen if an undefined or blank `arg` is provided.
 
 ## Object Example
 
