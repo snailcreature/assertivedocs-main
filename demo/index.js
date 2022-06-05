@@ -31,9 +31,23 @@ function add(a, b) {
   return a + b;
 }
 
+/**
+ * Returns the name property of an object.
+ * @param {Object} object - Object to read name from
+ * @returns {String}
+ * 
+ * @assert ObjectTestJohn - test:object=>John:string
+ * @assert ObjectTestBlank - :object=>John:string
+ */
+function objectTest(object) {
+  return object.name;
+}
+
 console.log(greet("John"));
+console.log(objectTest({name: "John"}));
 
 module.exports = {
   greet,
   add,
+  objectTest,
 }
