@@ -23,6 +23,9 @@
     "destination": "./docs",
     "encoding": "utf8",
     "tutorials": "./tutorials",
-    "readme": "./jsdocReadme.md"
+    "readme": "./jsdocReadme.md",
+    "assertivedocs": {
+      "customMap": "./customasserts"
+    }
   }
 }
