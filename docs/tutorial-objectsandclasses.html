@@ -28,7 +28,187 @@
 </header>
 
 <article>
-    
+    <p>When creating code, you may wish to pass values other than the basic
+types to a function. For example, when creating an event listener, the
+handler function takes an <code>event</code> parameter containing the details of
+the event that has triggered it. These events cannot be represented
+in a simple format of their own, like strings, numbers, and arrays. As
+of assertivedocs v0.4.0, you can use a mixin to add object handling to
+your unit tests.</p>
+<p>A <a href="https://javascript.info/mixins">mixin</a> is a piece of code that will be
+added to an object. Think of it like mixing drinks: You take a little bit of
+orange concentrate, add it to water, and mix. The result is still a single drink,
+but it contains water and orange.</p>
+<p>When assertivedocs initialises, it attempts to mix in a <code>typeMappingsMixin</code> object
+from a file that you have specified in <code>opts.assertivedocs.customObjects</code> in your
+JSDoc config file. Using the <code>&lt;arg&gt;:object</code> type operator in an assertion will attempt
+to provide an object for the unit test, where the arg is a reference for the object in
+the mixin.</p>
+<h2>Object Example</h2>
+<p>Let's say we have the below code that we want to test.</p>
+<pre class="prettyprint source lang-javascript"><code>/**
+ * Returns the name property of an object.
+ * @param {Object} object - Object to read name from
+ * @returns {String}
+ */
+function objectTest(object) {
+  return object.name;
+}
+</code></pre>
+<ol>
+<li>
+<p>Create a file for your custom mixin. In this example, we will be using a file called
+<code>customobjects.js</code>.</p>
+</li>
+<li>
+<p>Paste the below template into <code>customobjects.js</code>. You must have a <code>typeMappingsMixin</code> object
+with an <code>object</code> member function in order for assertivedocs to use your custom objects.</p>
+</li>
+</ol>
+<pre class="prettyprint source lang-javascript"><code>const typeMappingsMixin = {
+  object: function(arg) {
+    try {
+      switch (arg) {
+        default:
+          return {};
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+}
+
+module.exports = {
+  typeMappingsMixin,
+}
+</code></pre>
+<ol start="3">
+<li>Define an object with a <code>name</code> property to return when the <code>arg</code> is <code>test</code>. The <code>arg</code>
+parameter specified the name of the object to pass. For example, <code>@assert - test:object=&gt;:undefined</code>
+will pass <code>test</code> to the <code>typeMappingsMixin.object</code> function and return the associated object.</li>
+</ol>
+<pre class="prettyprint source lang-javascript"><code>const typeMappingsMixin = {
+  object: function(arg) {
+    try {
+      switch (arg) {
+
+        // Object to return when the arg is 'test'
+        case 'test':
+          return {
+            name: &quot;John&quot;,
+          }
+
+        default:
+          return {};
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+}
+</code></pre>
+<ol start="4">
+<li>Point assertivedocs to your mixin. In your JSDoc config file, set <code>opts.assertivedocs.customObjects</code> to the
+path to your mixin file. In the <code>jsdocconf.json</code> file for these docs, this option is set to <code>&quot;./demo/customobjects&quot;</code>.</li>
+</ol>
+<pre class="prettyprint source lang-json"><code>{
+  &quot;opts&quot;: {
+    &quot;assertivedocs&quot;: {
+      &quot;customObjects&quot;: &quot;./demo/customobjects&quot;
+    }
+  }
+}
+</code></pre>
+<ol start="5">
+<li>Add the assertion to your function. In our example, our function will now look like this.</li>
+</ol>
+<pre class="prettyprint source lang-javascript"><code>/**
+ * Returns the name property of an object.
+ * @param {Object} object - Object to read name from
+ * @returns {String}
+ * 
+ * @assert ObjectTest - test:object=>John:string
+ */
+function objectTest(object) {
+  return object.name;
+}
+</code></pre>
+<p>Now when you run JSDoc, it will mix your <code>typeMappingsMixin</code> into <code>typeMappings</code> and generate
+a unit test for <code>objectTest</code> using your custom object.</p>
+<h2>Class Example</h2>
+<p>Classes can be implemented for unit testing in a similar way to objects. Let's say we have a class
+<code>TestClass</code> in <code>index.js</code> that is defined as follows:</p>
+<pre class="prettyprint source lang-javascript"><code>class TestClass {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  update(newName) {
+    this.name = newName;
+  }
+}
+
+module.exports = {
+  TestClass,
+}
+</code></pre>
+<p>It has a name property, so we can use it to test the <code>objectTest</code> function from the last example.</p>
+<ol>
+<li>Import your class into your mixin file. In our <code>customobjects.js</code>, we add the following to the
+top of the file:</li>
+</ol>
+<pre class="prettyprint source lang-javascript"><code>const { TestClass } = require('./index');
+</code></pre>
+<ol start="2">
+<li>Define a case for this object. In our <code>typeMappingsMixin.object</code> function, we need to provide a
+case for when to provide this class. We will use <code>'class'</code>, so our <code>typeMappingsMixin</code> now looks
+as follows:</li>
+</ol>
+<pre class="prettyprint source lang-javascript"><code>const typeMappingsMixin = {
+  object: function(arg) {
+    try {
+      switch (arg) {
+        case &quot;test&quot;:
+          return {
+            name: &quot;John&quot;,
+          }
+
+        // Return new TestClass when the arg is &quot;class&quot;
+        case &quot;class&quot;:
+          return new TestClass(&quot;John&quot;);
+
+
+        default:
+          return {};
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+}
+</code></pre>
+<ol start="3">
+<li>Add the assertion to your function. Using the argument <code>class:object</code> will mean that
+<code>new TestClass(&quot;John&quot;)</code> will be passed to <code>objectTest</code> during unit testing.</li>
+</ol>
+<pre class="prettyprint source lang-javascript"><code>/**
+ * Returns the name property of an object.
+ * @param {Object} object - Object to read name from
+ * @returns {String}
+ * 
+ * @assert ObjectTest - test:object=>John:string
+ * @assert ClassTest - class:object=>John:string
+ */
+function objectTest(object) {
+  return object.name;
+}
+</code></pre>
+<h2>Summary</h2>
+<p>Objects and classes are complex data structures that can contain properties and member functions.
+In order to test these in assertivedocs, the <code>:object</code> type operator is used. A mixin called <code>typeMappingsMixin</code>
+must be defined with an <code>object</code> member function. This will tell assertivedocs how to handle the object in any
+given situation. The file containing the mixin must be pointed to in <code>opts.assertivedocs.customObjects</code> to
+be included.</p>
 </article>
 
 </section>
@@ -46,7 +226,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun Jun 05 2022 12:36:15 GMT+0100 (British Summer Time).
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun Jun 05 2022 13:30:15 GMT+0100 (British Summer Time).
 
     Unit Tests generated by <a href="https://github.com/snailcreature/assertivedocs">assertivedocs</a>.
 </footer>

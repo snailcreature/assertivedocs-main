@@ -25,7 +25,7 @@
     "tutorials": "./tutorials",
     "readme": "./jsdocReadme.md",
     "assertivedocs": {
-      "customMap": "./demo/customasserts"
+      "customObjects": "./demo/customobjects"
     }
   }
 }

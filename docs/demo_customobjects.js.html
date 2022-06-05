@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>assertivedocs: Namespace: assertivedocs</title>
+    <title>assertivedocs: Source: demo/customobjects.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,165 +17,78 @@
 
 <div id="main">
 
-    <h1 class="page-title">Namespace: assertivedocs</h1>
+    <h1 class="page-title">Source: demo/customobjects.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>assertivedocs</h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description"><p>The function to call when an assert tag is found.</p></div>
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plugin_assertivedocs_assertivedocs.js.html">plugin/assertivedocs/assertivedocs.js</a>, <a href="plugin_assertivedocs_assertivedocs.js.html#line175">line 175</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id=".file"><span class="type-signature">(static) </span>file<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>Current working file.</p>
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plugin_assertivedocs_assertivedocs.js.html">plugin/assertivedocs/assertivedocs.js</a>, <a href="plugin_assertivedocs_assertivedocs.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file customasserts
+ * @fileoverview Custom type mappings for objects and classes
+ */
+
+const { TestClass } = require('./index');
+
+/**
+ * Mixin for creating custom objects.
+ * @namespace typeMappingsMixin
+ * 
+ * @example
+const typeMappingsMixin = {
+  object: function(arg) {
+    try {
+      switch (arg) {
+        case "test":
+          return {
+            name: "John",
+          }
+        default:
+          return {};
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+}
+
+module.exports = {
+  typeMappingsMixin,
+}
+ */
+const typeMappingsMixin = {
+  /**
+   * Takes the argument and attempts to find a matching object to return.
+   * @memberof typeMappingsMixin
+   * @param {String} arg - The argument passed to typeMappings
+   * @returns {any}
+   */
+  object: function(arg) {
+    try {
+      switch (arg) {
+        case "test":
+          return {
+            name: "John",
+          }
+        case "class":
+          return new TestClass("John");
+        default:
+          return {};
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+}
+
+module.exports = {
+  typeMappingsMixin,
+}</code></pre>
+        </article>
+    </section>
 
 
 
